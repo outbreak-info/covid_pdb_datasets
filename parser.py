@@ -6,8 +6,6 @@ from datetime import date
 PDB_IDS = "https://cdn.rcsb.org/rcsb-pdb/general_information/news_publications/SARS-Cov-2-LOI/SARS-Cov-2-all-LOI.tsv"
 PDB_API = "https://data.rcsb.org/rest/v1/core/entry"
 
-12%10
-
 def getPDB(pdb_ids, pdb_api):
     raw_ids = pd.read_csv(PDB_IDS, sep="\t")
     ids = pd.np.unique(raw_ids["PDB structures complexed with Ligands of Interest (LOI)"])

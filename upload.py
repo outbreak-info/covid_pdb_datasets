@@ -33,48 +33,6 @@ class PDBUploader(biothings.hub.dataload.uploader.BaseSourceUploader):
                 "normalizer": "keyword_lowercase_normalizer",
                 "type": "keyword"
             },
-            "abstract": {
-                "type": "text"
-            },
-            "alternateName": {
-                "type": "text"
-            },
-            "armGroup": {
-                "properties": {
-                    "@type": {
-                        "normalizer": "keyword_lowercase_normalizer",
-                        "type": "keyword"
-                    },
-                    "name": {
-                        "type": "text"
-                    },
-                    "description": {
-                        "type": "text"
-                    },
-                    "role": {
-                        "normalizer": "keyword_lowercase_normalizer",
-                        "type": "keyword"
-                    },
-                    "intervention": {
-                        "properties": {
-                            "@type": {
-                                "normalizer": "keyword_lowercase_normalizer",
-                                "type": "keyword"
-                            },
-                            "name": {
-                                "type": "text"
-                            },
-                            "category": {
-                                "normalizer": "keyword_lowercase_normalizer",
-                                "type": "keyword"
-                            },
-                            "description": {
-                                "type": "text"
-                            }
-                        }
-                    }
-                }
-            },
             "author": {
                 "properties": {
                     "@type": {
@@ -130,71 +88,37 @@ class PDBUploader(biothings.hub.dataload.uploader.BaseSourceUploader):
             "description": {
                 "type": "text"
             },
-            "eligibilityCriteria": {
-                "properties": {
-                    "@type": {
-                        "normalizer": "keyword_lowercase_normalizer",
-                        "type": "keyword"
-                    },
-                    "inclusionCriteria": {
-                        "type": "text"
-                    },
-                    "exclusionCriteria": {
-                        "type": "text"
-                    },
-                    "minimumAge": {
-                        "type": "text"
-                    },
-                    "maximumAge": {
-                        "type": "text"
-                    },
-                    "gender": {
-                        "type": "text"
-                    },
-                    "healthyVolunteers": {
-                        "type": "boolean"
-                    },
-                    "stdAge": {
-                        "type": "text"
-                    }
-                }
-            },
-            "hasResults": {
-                "type": "boolean"
-            },
-            "healthCondition": {
+            "doi": {
                 "type": "text"
             },
             "identifier": {
                 "normalizer": "keyword_lowercase_normalizer",
                 "type": "keyword"
             },
-            "identifierSource": {
-                "normalizer": "keyword_lowercase_normalizer",
-                "type": "keyword"
-            },
-            "interventionText": {
-                "type": "text"
-            },
-            "interventions": {
+            "isBasedOn": {
                 "properties": {
                     "@type": {
                         "normalizer": "keyword_lowercase_normalizer",
                         "type": "keyword"
                     },
+                    "identifier": {
+                        "type": "text"
+                    },
                     "name": {
                         "type": "text"
                     },
-                    "category": {
-                        "normalizer": "keyword_lowercase_normalizer",
-                        "type": "keyword"
-                    },
                     "description": {
+                        "type": "text"
+                    },
+                    "url": {
+                        "type": "text"
+                    },
+                    "datePublished": {
                         "type": "text"
                     }
                 }
             },
-            "isBasedOn": {
+            "citedBy": {
                 "properties": {
                     "@type": {
                         "normalizer": "keyword_lowercase_normalizer",
@@ -222,26 +146,19 @@ class PDBUploader(biothings.hub.dataload.uploader.BaseSourceUploader):
                 "type": "keyword",
                 "copy_to": ["all"]
             },
+            "measurementParameter": {
+                "properties": {
+                    "resolution": {
+                        "type": "text"
+                    }
+                }
+            },
+            "measurementTechnique": {
+                "normalizer": "keyword_lowercase_normalizer",
+                "type": "keyword"
+            },
             "name": {
                 "type": "text"
-            },
-            "outcome": {
-                "properties": {
-                    "@type": {
-                        "normalizer": "keyword_lowercase_normalizer",
-                        "type": "keyword"
-                    },
-                    "outcomeMeasure": {
-                        "type": "text"
-                    },
-                    "outcomeTimeFrame": {
-                        "type": "text"
-                    },
-                    "outcomeType": {
-                        "normalizer": "keyword_lowercase_normalizer",
-                        "type": "keyword"
-                    },
-                }
             },
             "relatedTo": {
                 "properties": {
@@ -259,132 +176,6 @@ class PDBUploader(biothings.hub.dataload.uploader.BaseSourceUploader):
                         "type": "text"
                     },
                     "citation": {
-                        "type": "text"
-                    }
-                }
-            },
-            "sponsor": {
-                "properties": {
-                    "@type": {
-                        "normalizer": "keyword_lowercase_normalizer",
-                        "type": "keyword"
-                    },
-                    "name": {
-                        "normalizer": "keyword_lowercase_normalizer",
-                        "type": "keyword"
-                    },
-                    "class": {
-                        "normalizer": "keyword_lowercase_normalizer",
-                        "type": "keyword"
-                    },
-                    "role": {
-                        "normalizer": "keyword_lowercase_normalizer",
-                        "type": "keyword"
-                    }
-                }
-            },
-            "studyDesign": {
-                "properties": {
-                    "@type": {
-                        "normalizer": "keyword_lowercase_normalizer",
-                        "type": "keyword"
-                    },
-                    "studyType": {
-                        "normalizer": "keyword_lowercase_normalizer",
-                        "type": "keyword"
-                    },
-                    "designAllocation": {
-                        "type": "text"
-                    },
-                    "studyDesignText": {
-                        "type": "text"
-                    },
-                    "designModel": {
-                        "type": "text"
-                    },
-                    "designTimePerspective": {
-                        "type": "text"
-                    },
-                    "designPrimaryPurpose": {
-                        "type": "text"
-                    },
-                    "designWhoMasked": {
-                        "type": "text"
-                    },
-                    "phase": {
-                        "normalizer": "keyword_lowercase_normalizer",
-                        "type": "keyword"
-                    },
-                    "phaseNumber": {
-                        "type": "half_float"
-                    }
-                }
-            },
-            "studyEvent": {
-                "properties": {
-                    "@type": {
-                        "normalizer": "keyword_lowercase_normalizer",
-                        "type": "keyword"
-                    },
-                    "studyEventType": {
-                        "type": "text"
-                    },
-                    "studyEventDate": {
-                        "type": "text"
-                    },
-                    "studyEventDateType": {
-                        "type": "text"
-                    }
-                }
-            },
-            "studyLocation": {
-                "properties": {
-                    "@type": {
-                        "normalizer": "keyword_lowercase_normalizer",
-                        "type": "keyword"
-                    },
-                    "name": {
-                        "type": "text"
-                    },
-                    "studyLocationCity": {
-                        "type": "text"
-                    },
-                    "studyLocationState": {
-                        "type": "text"
-                    },
-                    "studyLocationCountry": {
-                        "normalizer": "keyword_lowercase_normalizer",
-                        "type": "keyword"
-                    },
-                    "studyLocationStatus": {
-                        "normalizer": "keyword_lowercase_normalizer",
-                        "type": "keyword"
-                    }
-                }
-            },
-            "studyStatus": {
-                "properties": {
-                    "@type": {
-                        "normalizer": "keyword_lowercase_normalizer",
-                        "type": "keyword"
-                    },
-                    "status": {
-                        "normalizer": "keyword_lowercase_normalizer",
-                        "type": "keyword"
-                    },
-                    "statusDate": {
-                        "type": "text"
-                    },
-                    "whyStopped": {
-                        "type": "text"
-                    },
-                    "statusExpanded": {
-                        "type": "boolean"
-                    },
-                    "enrollmentCount": {
-                        "type": "integer"
-                    },
-                    "enrollmentType": {
                         "type": "text"
                     }
                 }

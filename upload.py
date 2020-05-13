@@ -17,7 +17,13 @@ class PDBUploader(biothings.hub.dataload.uploader.BaseSourceUploader):
 
     main_source = "covid_pdb_datasets"
     name = "pdb"
-    __metadata__ = {"src_meta": {}}
+    __metadata__ = {
+        "src_meta": {
+            'license_url': 'https://www.rcsb.org/pages/usage-policy',
+            'licence': 'CC0 1.0 Universal',
+            'url': 'https://www.rcsb.org/news?year=2020&article=5e74d55d2d410731e9944f52&feature=true'
+        }
+    }
     idconverter = None
     storage_class = biothings.hub.dataload.storage.BasicStorage
 

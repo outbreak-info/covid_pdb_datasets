@@ -12,8 +12,8 @@ logging = config.logger
 # PDB_IDS = "https://cdn.rcsb.org/rcsb-pdb/general_information/news_publications/SARS-Cov-2-LOI/SARS-Cov-2-all-LOI.tsv"
 PDB_API = "https://data.rcsb.org/rest/v1/core/entry"
 
-def getPDB(pdb_ids, pdb_api):
-    raw_ids = pd.read_csv(pdb_ids, sep="\t")
+def getPDB(raw_ids, pdb_api):
+    # raw_ids = pd.read_csv(pdb_ids, sep="\t")
     ids = pd.np.unique(raw_ids["PDB structures complexed with Ligands of Interest (LOI)"])
     df = []
     total = len(ids)
@@ -80,7 +80,7 @@ def getFunding(funding):
 def getKeywords(result):
     keys = []
     keys.extend(result["struct_keywords"]["pdbx_keywords"].split(","))
-    keys.extend(result["struct_keywords"]["text"].split(","))
+    keys.extend(result["struct_keywords"]["text"].split(",")
 
     keys = [key.strip() for key in keys]
     return(list(pd.np.unique(keys)))

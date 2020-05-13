@@ -30,7 +30,7 @@ class PDBUploader(biothings.hub.dataload.uploader.BaseSourceUploader):
     def load_data(self, data_folder):
         if data_folder:
             self.logger.info("Load data from directory: '%s'", data_folder)
-        return parser_func()
+        return parser_func(data_folder)
 
     @classmethod
     def get_mapping(klass):

@@ -7,7 +7,7 @@ PDB_IDS = "https://cdn.rcsb.org/rcsb-pdb/general_information/news_publications/S
 PDB_API = "https://data.rcsb.org/rest/v1/core/entry"
 
 def getPDB(pdb_ids, pdb_api):
-    raw_ids = pd.read_csv(PDB_IDS, sep="\t")
+    raw_ids = pd.read_csv(pdb_ids, sep="\t")
     ids = pd.np.unique(raw_ids["PDB structures complexed with Ligands of Interest (LOI)"])
     df = []
     total = len(ids)

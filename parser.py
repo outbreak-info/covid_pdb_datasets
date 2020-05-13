@@ -2,8 +2,12 @@ import pandas as pd
 import requests
 from datetime import date
 
+from biothings.utils.common import open_anyfile
+from biothings import config
+logging = config.logger
+
 # List of coronavirus-related PDB ids, curated by RCSB
-PDB_IDS = "https://cdn.rcsb.org/rcsb-pdb/general_information/news_publications/SARS-Cov-2-LOI/SARS-Cov-2-all-LOI.tsv"
+# PDB_IDS = "https://cdn.rcsb.org/rcsb-pdb/general_information/news_publications/SARS-Cov-2-LOI/SARS-Cov-2-all-LOI.tsv"
 PDB_API = "https://data.rcsb.org/rest/v1/core/entry"
 
 def getPDB(pdb_ids, pdb_api):
@@ -15,7 +19,7 @@ def getPDB(pdb_ids, pdb_api):
         if(i%10 == 0):
             print(f"finished {i} of {total}")
         df.append(getPDBmetadata(pdb_api, id))
-    print("Finished getting PDB metadata")
+    logging.warning("Finished getting PDB metadata")
     return(df)
 
 
@@ -80,7 +84,12 @@ def getKeywords(result):
     return(list(pd.np.unique(keys)))
 
 
-def load_annotations():
-    docs = getPDB(PDB_IDS, PDB_API)
-    for doc in docs:
-        yield doc
+def load_annotations(data_folder):
+    infile = os.path.join(data_folder,"SARS-Cov-2-all-LOI.tsv")
+    assert os.path.exists(infile)
+
+    with open_anyfile(infile,mode='r') as file:
+        data = file.read()
+        docs = getPDB(data, PDB_API)
+        for doc in docs:
+            yield doc

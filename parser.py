@@ -38,7 +38,6 @@ def getPDBmetadata(pdb_api, id):
     md["identifier"] = raw_data["rcsb_id"]
     md["doi"] = f"10.2210/{md['_id']}/pdb"
     md["author"] = [{"@type": "Person", "name": author["name"]} for author in raw_data["audit_author"]]
-    md["curatedBy"] = {"@type": "Organization", "url": "https://www.rcsb.org/news?year=2020&article=5e74d55d2d410731e9944f52&feature=true", "name": "The Protein Data Bank", "updatedDate": today}
     md["citedBy"] = [getCitation(citation) for citation in raw_data["citation"]]
     if("pdbresolution" in raw_data["pdbx_vrpt_summary"].keys()):
         md["measurementParameter"] = {"resolution": raw_data["pdbx_vrpt_summary"]["pdbresolution"]}
@@ -49,6 +48,7 @@ def getPDBmetadata(pdb_api, id):
     md["dateModified"] = raw_data["rcsb_accession_info"]["revision_date"][0:10]
     md["keywords"] = getKeywords(raw_data)
     md["url"] = f"https://www.rcsb.org/structure/{md['identifier']}"
+    md["curatedBy"] = {"@type": "Organization", "url": md["url"], "name": "The Protein Data Bank", "updatedDate": today}
     if("rcsb_external_references" in raw_data.keys()):
         md["sameAs"] = [link["link"] for link in raw_data["rcsb_external_references"]]
     return(md)

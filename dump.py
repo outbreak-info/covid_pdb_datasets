@@ -10,8 +10,7 @@ import biothings.hub.dataload.dumper
 class PdbDumper(bbiothings.hub.dataload.dumper.LastModifiedHTTPDumper):
     SRC_NAME = "covid_pdb_datasets"
     SRC_URLS = [
-        "https://cdn.rcsb.org/rcsb-pdb/general_information/news_publications/SARS-Cov-2-LOI/SARS-Cov-2-all-LOI.tsv",
-        "https://data.rcsb.org/rest/v1/core/entry/"
+        "https://cdn.rcsb.org/rcsb-pdb/general_information/news_publications/SARS-Cov-2-LOI/SARS-Cov-2-all-LOI.tsv"
         ]
     # override in subclass accordingly
     SRC_ROOT_FOLDER = os.path.join(DATA_ARCHIVE_ROOT, SRC_NAME)

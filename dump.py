@@ -7,7 +7,7 @@ from config import DATA_ARCHIVE_ROOT
 import biothings.hub.dataload.dumper
 
 
-class PdbDumper(biothings.hub.dataload.uploader.BaseSourceUploader):
+class PdbDumper(bbiothings.hub.dataload.dumper.LastModifiedHTTPDumper):
     SRC_NAME = "covid_pdb_datasets"
     SRC_URLS = [
         "https://cdn.rcsb.org/rcsb-pdb/general_information/news_publications/SARS-Cov-2-LOI/SARS-Cov-2-all-LOI.tsv",

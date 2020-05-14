@@ -16,7 +16,7 @@ except ImportError:
 class PDBUploader(biothings.hub.dataload.uploader.BaseSourceUploader):
 
     # main_source = "covid_pdb_datasets"
-    name = "pdb"
+    name = "covid_pdb_datasets"
     __metadata__ = {
         "src_meta": {
             'license_url': 'https://www.rcsb.org/pages/usage-policy',

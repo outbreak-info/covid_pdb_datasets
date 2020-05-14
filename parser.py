@@ -92,8 +92,9 @@ def load_annotations(data_folder):
     infile = os.path.join(data_folder,"SARS-Cov-2-all-LOI.tsv")
     assert os.path.exists(infile)
 
-    with open_anyfile(infile,mode='r') as file:
-        data = file.read()
-        docs = getPDB(data, PDB_API)
-        for doc in docs:
-            yield doc
+    # with open_anyfile(infile,mode='r') as file:
+        # data = file.read()
+    raw_ids = pd.read_csv(infile, sep="\t")
+    docs = getPDB(raw_ids, PDB_API)
+    for doc in docs:
+        yield doc

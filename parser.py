@@ -80,11 +80,13 @@ def getFunding(funding):
 def getKeywords(result):
     keys = []
     keys.extend(result["struct_keywords"]["pdbx_keywords"].split(","))
-    keys.extend(result["struct_keywords"]["text"].split(",")
+    keys.extend(result["struct_keywords"]["text"].split(","))
 
     keys = [key.strip() for key in keys]
     return(list(pd.np.unique(keys)))
 
+# raw_ids = pd.read_csv(PDB_IDS, sep="\t")
+# getPDB(raw_ids, PDB_API)
 
 def load_annotations(data_folder):
     infile = os.path.join(data_folder,"SARS-Cov-2-all-LOI.tsv")

@@ -15,7 +15,7 @@ except ImportError:
 
 class PDBUploader(biothings.hub.dataload.uploader.BaseSourceUploader):
 
-    main_source = "covid_pdb_datasets"
+    # main_source = "covid_pdb_datasets"
     name = "pdb"
     __metadata__ = {
         "src_meta": {

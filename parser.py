@@ -48,7 +48,7 @@ def getPDBmetadata(pdb_api, id):
     md["dateModified"] = raw_data["rcsb_accession_info"]["revision_date"][0:10]
     md["keywords"] = getKeywords(raw_data)
     md["url"] = f"https://www.rcsb.org/structure/{md['identifier']}"
-    md["curatedBy"] = {"@type": "Organization", "url": md["url"], "name": "The Protein Data Bank", "updatedDate": today}
+    md["curatedBy"] = {"@type": "Organization", "url": md["url"], "name": "The Protein Data Bank", "curationDate": today}
     if("rcsb_external_references" in raw_data.keys()):
         md["sameAs"] = [link["link"] for link in raw_data["rcsb_external_references"]]
     return(md)

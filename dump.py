@@ -22,4 +22,4 @@ class PdbDumper(biothings.hub.dataload.dumper.LastModifiedHTTPDumper):
         }
     }
 
-    SCHEDULE = None  # crontab format schedule, if None, won't be scheduled
+    SCHEDULE = "25 14 * * *"  # daily at 14:25UTC/7:25PT

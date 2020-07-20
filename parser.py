@@ -30,28 +30,31 @@ def getPDBmetadata(pdb_api, id):
     if resp.status_code == 200:
         raw_data = resp.json()
 
-    today = date.today().strftime("%Y-%m-%d")
-    md = {"@type": "Dataset"}
-    md["name"] = raw_data["struct"]["title"]
-    md["description"] = raw_data["struct"]["title"]
-    md["_id"] = f"pdb{raw_data['rcsb_id']}"
-    md["identifier"] = raw_data["rcsb_id"]
-    md["doi"] = f"10.2210/{md['_id']}/pdb"
-    md["author"] = [{"@type": "Person", "name": author["name"]} for author in raw_data["audit_author"]]
-    md["citedBy"] = [getCitation(citation) for citation in raw_data["citation"]]
-    if("pdbresolution" in raw_data["pdbx_vrpt_summary"].keys()):
-        md["measurementParameter"] = {"resolution": raw_data["pdbx_vrpt_summary"]["pdbresolution"]}
-    md["measurementTechnique"] = [technique["method"].lower() for technique in raw_data["exptl"]]
-    if("pdbx_audit_support" in raw_data.keys()):
-        md["funding"] = [getFunding(funder) for funder in raw_data["pdbx_audit_support"]]
-    md["datePublished"] = raw_data["rcsb_accession_info"]["deposit_date"][0:10]
-    md["dateModified"] = raw_data["rcsb_accession_info"]["revision_date"][0:10]
-    md["keywords"] = getKeywords(raw_data)
-    md["url"] = f"https://www.rcsb.org/structure/{md['identifier']}"
-    md["curatedBy"] = {"@type": "Organization", "url": md["url"], "name": "The Protein Data Bank", "curationDate": today}
-    if("rcsb_external_references" in raw_data.keys()):
-        md["sameAs"] = [link["link"] for link in raw_data["rcsb_external_references"]]
-    return(md)
+        today = date.today().strftime("%Y-%m-%d")
+        md = {"@type": "Dataset"}
+        md["name"] = raw_data["struct"]["title"]
+        md["description"] = raw_data["struct"]["title"]
+        md["_id"] = f"pdb{raw_data['rcsb_id']}"
+        md["identifier"] = raw_data["rcsb_id"]
+        md["doi"] = f"10.2210/{md['_id']}/pdb"
+        md["author"] = [{"@type": "Person", "name": author["name"]} for author in raw_data["audit_author"]]
+        md["citedBy"] = [getCitation(citation) for citation in raw_data["citation"]]
+        if("pdbresolution" in raw_data["pdbx_vrpt_summary"].keys()):
+            md["measurementParameter"] = {"resolution": raw_data["pdbx_vrpt_summary"]["pdbresolution"]}
+        md["measurementTechnique"] = [technique["method"].lower() for technique in raw_data["exptl"]]
+        if("pdbx_audit_support" in raw_data.keys()):
+            md["funding"] = [getFunding(funder) for funder in raw_data["pdbx_audit_support"]]
+        md["datePublished"] = raw_data["rcsb_accession_info"]["deposit_date"][0:10]
+        md["dateModified"] = raw_data["rcsb_accession_info"]["revision_date"][0:10]
+        md["keywords"] = getKeywords(raw_data)
+        md["url"] = f"https://www.rcsb.org/structure/{md['identifier']}"
+        md["curatedBy"] = {"@type": "Organization", "url": md["url"], "name": "The Protein Data Bank", "curationDate": today}
+        if("rcsb_external_references" in raw_data.keys()):
+            md["sameAs"] = [link["link"] for link in raw_data["rcsb_external_references"]]
+        return(md)
+    else:
+        # print(f"ID {id} returned an error from the API")
+        logging.warning(f"ID {id} returned an error from the API")
 
 def getCitation(citation):
     cite = {"@type": "Publication"}

@@ -22,4 +22,4 @@ class PdbDumper(biothings.hub.dataload.dumper.LastModifiedHTTPDumper):
         }
     }
 
-    SCHEDULE = "25 14 * * *"  # daily at 14:25UTC/7:25PT
+    SCHEDULE = "25 7 * * *"  # daily at 14:25UTC/7:25PT

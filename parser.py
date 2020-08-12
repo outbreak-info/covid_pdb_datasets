@@ -92,7 +92,7 @@ def getKeywords(result):
 # getPDB(raw_ids, PDB_API)
 
 def load_annotations(data_folder):
-    infile = os.path.join(data_folder,"SARS-Cov-2-all-LOI.tsv")
+    infile = os.path.join(data_folder,"SARS-CoV-2-LOI.tsv")
     assert os.path.exists(infile)
 
     # with open_anyfile(infile,mode='r') as file:

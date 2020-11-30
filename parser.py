@@ -9,7 +9,7 @@ from biothings import config
 logging = config.logger
 
 # List of coronavirus-related PDB ids, curated by RCSB
-# PDB_IDS = "https://cdn.rcsb.org/rcsb-pdb/general_information/news_publications/SARS-Cov-2-LOI/SARS-Cov-2-all-LOI.tsv"
+# PDB_IDS = "https://cdn.rcsb.org/rcsb-pdb/general_information/news_publications/SARS-Cov-2-LOI/SARS-CoV-2-LOI.tsv"
 PDB_API = "https://data.rcsb.org/rest/v1/core/entry"
 
 def getPDB(raw_ids, pdb_api):
@@ -82,8 +82,10 @@ def getFunding(funding):
 
 def getKeywords(result):
     keys = []
-    keys.extend(result["struct_keywords"]["pdbx_keywords"].split(","))
-    keys.extend(result["struct_keywords"]["text"].split(","))
+    if("pdbx_keywords" in result["struct_keywords"].keys()):
+        keys.extend(result["struct_keywords"]["pdbx_keywords"].split(","))
+    if("text" in result["struct_keywords"].keys()):
+        keys.extend(result["struct_keywords"]["text"].split(","))
 
     keys = [key.strip() for key in keys]
     return(list(pd.np.unique(keys)))

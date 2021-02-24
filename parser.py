@@ -39,7 +39,7 @@ def getPDBmetadata(pdb_api, id):
         md["doi"] = f"10.2210/{md['_id']}/pdb"
         md["author"] = [{"@type": "Person", "name": author["name"]} for author in raw_data["audit_author"]]
         md["citedBy"] = [getCitation(citation) for citation in raw_data["citation"]]
-        if("pdbresolution" in raw_data["pdbx_vrpt_summary"].keys()):
+        if("pdbresolution" in raw_data.get("pdbx_vrpt_summary").keys()):
             md["measurementParameter"] = {"resolution": raw_data["pdbx_vrpt_summary"]["pdbresolution"]}
         md["measurementTechnique"] = [technique["method"].lower() for technique in raw_data["exptl"]]
         if("pdbx_audit_support" in raw_data.keys()):

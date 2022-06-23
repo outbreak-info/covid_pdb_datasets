@@ -5,28 +5,47 @@ import requests
 from datetime import date
 
 from biothings.utils.common import open_anyfile
-from biothings import config
-logging = config.logger
+from outbreak_parser_tools.logger import get_logger
+logger = get_logger('pdb')
 
-# List of coronavirus-related PDB ids, curated by RCSB
-# PDB_IDS = "https://cdn.rcsb.org/rcsb-pdb/general_information/news_publications/SARS-Cov-2-LOI/SARS-CoV-2-LOI.tsv"
 PDB_API = "https://data.rcsb.org/rest/v1/core/entry"
 
-def getPDB(raw_ids, pdb_api):
-    # raw_ids = pd.read_csv(pdb_ids, sep="\t")
-    ids = pd.np.unique(raw_ids["PDB structures complexed with Ligands of Interest (LOI)"])
+def paginate_through_PDB_ids(index=0):
+    url = 'https://www.rcsb.org/search/data'
+    payload =  {'report': 'search_summary', 'request': {'query': {'type': 'group', 'nodes': [{'type': 'group', 'nodes': [{'type': 'group', 'nodes': [{'type': 'terminal', 'service': 'text', 'parameters': {'attribute': 'rcsb_entity_source_organism.taxonomy_lineage.name', 'operator': 'exact_match', 'value': 'SARS-CoV-2'}}], 'logical_operator': 'and'}], 'logical_operator': 'and', 'label': 'text'}], 'logical_operator': 'and'}, 'return_type': 'entry', 'request_options': {'paginate': {'start': index, 'rows': 100}, 'scoring_strategy': 'combined', 'sort': [{'sort_by': 'score', 'direction': 'desc'}]}, 'request_info': {'query_id': '3f095c89d4be9220d8eaaca0c98ef2ed'}}, 'getDrilldown': True, 'attributes': None}
+    response = requests.post(url, json=payload).json()
+    if response.get('statusCode') == 999:
+        return None, None
+
+    ids = [i['identifier'] for i in response['result_set']]
+    return set(ids), response['result_set_count']
+
+def get_PDB_ids():
+    ids, length = paginate_through_PDB_ids()
+    index = 100
+    while index < length:
+        new_ids, _ = paginate_through_PDB_ids(index)
+        if new_ids is None:
+            logger.warning(f'breaking index {index} length {length},  no new ids found')
+            break
+        ids = ids.union(new_ids)
+        index += 100
+    return ids
+
+def getPDB():
+    ids = get_PDB_ids()
     df = []
     total = len(ids)
     for i,id in enumerate(ids):
         if(i%10 == 0):
-            print(f"finished {i} of {total}")
-        df.append(getPDBmetadata(pdb_api, id))
-    logging.warning("Finished getting PDB metadata")
+            logger.info(f"finished {i} of {total}")
+        df.append(getPDBmetadata(id))
+    logger.warning("Finished getting PDB metadata")
     return(df)
 
 
-def getPDBmetadata(pdb_api, id):
-    resp = requests.get(f"{pdb_api}/{id}")
+def getPDBmetadata(id):
+    resp = requests.get(f"{PDB_API}/{id}")
     if resp.status_code == 200:
         raw_data = resp.json()
 
@@ -53,8 +72,8 @@ def getPDBmetadata(pdb_api, id):
             md["sameAs"] = [link["link"] for link in raw_data["rcsb_external_references"]]
         return(md)
     else:
-        # print(f"ID {id} returned an error from the API")
-        logging.warning(f"ID {id} returned an error from the API")
+        # logger.info(f"ID {id} returned an error from the API")
+        logger.warning(f"ID {id} returned an error from the API")
 
 def getCitation(citation):
     cite = {"@type": "Publication"}
@@ -90,16 +109,15 @@ def getKeywords(result):
     keys = [key.strip() for key in keys]
     return(list(pd.np.unique(keys)))
 
-# raw_ids = pd.read_csv(PDB_IDS, sep="\t")
-# getPDB(raw_ids, PDB_API)
-
 def load_annotations(data_folder):
-    infile = os.path.join(data_folder,"SARS-CoV-2-LOI.tsv")
-    assert os.path.exists(infile)
-
-    # with open_anyfile(infile,mode='r') as file:
-        # data = file.read()
-    raw_ids = pd.read_csv(infile, sep="\t")
-    docs = getPDB(raw_ids, PDB_API)
+    docs = getPDB()
     for doc in docs:
         yield doc
+
+if __name__ == '__main__':
+    import json
+    j = [i for i in load_annotations('./')]
+    with open('d.json', 'w') as d:
+        for m in j:
+            json.dump(m, d)
+            d.write('\n')

@@ -1,4 +1,5 @@
 import os
+import datetime
 
 import biothings, config
 biothings.config_for_app(config)
@@ -6,13 +7,11 @@ from config import DATA_ARCHIVE_ROOT
 
 import biothings.hub.dataload.dumper
 
-
-class PdbDumper(biothings.hub.dataload.dumper.LastModifiedHTTPDumper):
+class PdbDumper(biothings.hub.dataload.dumper.DummyDumper):
     SRC_NAME = "covid_pdb_datasets"
-    SRC_URLS = [
-        "https://cdn.rcsb.org/rcsb-pdb/general_information/news_publications/SARS-Cov-2-LOI/SARS-CoV-2-LOI.tsv"        ]
-    # override in subclass accordingly
     SRC_ROOT_FOLDER = os.path.join(DATA_ARCHIVE_ROOT, SRC_NAME)
+
+    SCHEDULE = "25 7 * * *"
 
     __metadata__ = {
         "src_meta": {
@@ -22,4 +21,10 @@ class PdbDumper(biothings.hub.dataload.dumper.LastModifiedHTTPDumper):
         }
     }
 
-    SCHEDULE = "25 7 * * *"  # daily at 14:25UTC/7:25PT
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.set_release()
+
+    def set_release(self):
+        self.release = datetime.datetime.now().strftime('%Y-%m-%d-%H:%M')

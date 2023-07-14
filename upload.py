@@ -28,7 +28,6 @@ class PDBUploader(biothings.hub.dataload.uploader.BaseSourceUploader):
         }
     }
     idconverter = None
-    storage_class = biothings.hub.dataload.storage.BasicStorage
 
     def load_data(self, data_folder):
         if data_folder:

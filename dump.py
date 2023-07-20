@@ -11,7 +11,7 @@ class PdbDumper(biothings.hub.dataload.dumper.DummyDumper):
     SRC_NAME = "covid_pdb_datasets"
     SRC_ROOT_FOLDER = os.path.join(DATA_ARCHIVE_ROOT, SRC_NAME)
 
-    SCHEDULE = "25 7 * * *"
+    SCHEDULE = "30 11 * * *"
 
     __metadata__ = {
         "src_meta": {
